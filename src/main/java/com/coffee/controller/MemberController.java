@@ -96,4 +96,7 @@ public class MemberController {
 //        // 추후 추가 코딩 정보가 있으면 추가할 수 있습니다.
 //        return ResponseEntity.ok("logout success");
 //    }
+
+
+
 }
