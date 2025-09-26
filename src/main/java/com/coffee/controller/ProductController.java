@@ -176,4 +176,25 @@ public class ProductController {
         }
     }
 
+    // 이미지 경로를 반환하는 메서드
+    private String getProductImagePath() {
+        // 폴더 구분자가 제대로 설정 되어 있으면 그대로 사용합니다.
+        // 그렇지 않으면, 폴더 구분자를 붙여 줍니다.
+        // File.separator : 폴더 구분자를 의미하며, 리눅스는 /, 윈도우는 \입니다.
+        return productImageLocation.endsWith("\\") || productImageLocation.endsWith("/")
+                ? productImageLocation
+                : productImageLocation + File.separator;
+    }
+
+    @GetMapping("/detail/{id}") // 프론트 엔드가 상품에 대한 상세 정보를 요청하였습니다.
+    public ResponseEntity<Product> detail(@PathVariable Long id){
+        Product product = this.productService.getProductById(id);
+
+        if (product == null){
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }else {
+            return ResponseEntity.ok(product);
+        }
+    }
+
 }
