@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class CartProductDto {
     private Long memberId ; // 회원 아이디
-    private Long productID ; // 상품 아이디
+    private Long productId ; // 상품 아이디
     private int quantity; // 수량
     
     
