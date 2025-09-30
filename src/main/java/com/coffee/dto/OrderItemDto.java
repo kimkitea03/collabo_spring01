@@ -9,6 +9,6 @@ import lombok.ToString;
 public class OrderItemDto { 
     //변수 cartProductId는 '카트 목록보기(CartList.)' 메뉴에서만 사용됩니다. 
     private Long cartProductId;// 카트 상품 번호
-    private Long ProductId; // 상품 번호
+    private Long productId; // 상품 번호
     private int quantity; // 구매 수량
 }

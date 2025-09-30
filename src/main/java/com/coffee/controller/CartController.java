@@ -96,9 +96,9 @@ public class CartController {
     }
 
     @GetMapping("/list/{memberId}")//특정 사용자의 '카트 상품' 목록을 조회합니다.
-    public ResponseEntity<List<CartProductResponseDto>> getCartProducts(@PathVariable Long memberId){
+    public ResponseEntity<List<CartProductResponseDto>> getCartProducts(@PathVariable Long memberId) {
         Optional<Member> optionalMember = this.memberService.findMemberById(memberId);
-        if(optionalMember.isEmpty()){// 무효한 회원 정보
+        if (optionalMember.isEmpty()) {// 무효한 회원 정보
             return ResponseEntity.badRequest().build();
         }
 
@@ -156,7 +156,7 @@ public class CartController {
     public ResponseEntity<String> deleteCartProduct(@PathVariable Long cartProductId){
         System.out.println("삭제할 카트 상품 아이디 : "+cartProductId);
 
-        cartProductService.delete(cartProductId);
+        cartProductService.deleteCartProductById(cartProductId);
 
         String message = "카트 상품"+cartProductId+"번이 장바구니 목록에서 삭제되었습니다.";
         return ResponseEntity.ok(message);
