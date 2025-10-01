@@ -153,4 +153,10 @@ public class OrderController {
         return ResponseEntity.ok(responseDtos);
     }
 
+    @GetMapping("/update/{orderId}")
+    public String ddd(@PathVariable Long orderId){
+        System.out.println("수정할 항목 : " + orderId);
+        return null ;
+    }
+
 }
