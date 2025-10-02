@@ -197,4 +197,10 @@ public class ProductController {
         }
     }
 
+    @GetMapping("") // 홈페이지에 보여줄 큰 이미지들에 대한 정보를 읽어 옵니다.
+    public List<Product> getBigsizeProduct(@RequestParam(required = false) String filter){
+//        return ProductService.getProductByFilter(filter);
+        return productService.getProductByFilter(filter);
+    }
+
 }

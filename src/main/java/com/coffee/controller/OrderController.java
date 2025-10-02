@@ -114,14 +114,15 @@ public class OrderController {
     public ResponseEntity<List<OrderResponseDto>> getOrderList(@RequestParam Long memberId, @RequestParam Role role) {
         System.out.println("로그인 한 사람의 id : "+memberId);
         System.out.println("로그인 한 사람 역할 : "+role);
+
         List<Order> orders=null;
 
         if (role == Role.ADMIN){ // 관리자이면 모든 주문 내역을 조회하기
 //            System.out.println("관리자");
-            orders = orderService.findAllOrders();
+            orders = orderService.findAllOrders(OrderStatus.PENDING);
         }else { // 일반인인 경우에는 자기가 주문한 정보만 조회하기
 //            System.out.println("일반인");
-            orders  = orderService.findByMemberId(memberId);
+            orders  = orderService.findByMemberId(memberId , OrderStatus.PENDING);
         }
 
 

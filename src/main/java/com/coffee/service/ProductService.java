@@ -13,6 +13,13 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository ;
 
+    public List<Product> getProductByFilter(String filter) {
+        if(filter != null && !filter.isEmpty()){
+            return productRepository.findByImageContaining(filter);
+        }
+        return productRepository.findAll();
+    }
+
     public List<Product> getProductList() {
         return this.productRepository.findProductByOrderByIdDesc();
     }
@@ -32,6 +39,7 @@ public class ProductService {
         this.productRepository.save(product);
     }
 
+
     public Product getProductById(Long id) {
         // findById()메소드는 CrudRepository에 포함되어 있습니다.
         // 그리고, Optional<>을 반환합니다.
@@ -50,4 +58,5 @@ public class ProductService {
     public Optional<Product> findProductById(Long productID) {
         return this.productRepository.findById(productID);
     }
+
 }
