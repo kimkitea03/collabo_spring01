@@ -1,13 +1,12 @@
 package com.coffee.controller;
 
+import com.coffee.constant.Category;
+import com.coffee.dto.SearchDto;
 import com.coffee.entity.Product;
 import com.coffee.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,27 +35,51 @@ public class ProductController {
 //        return products ;
 //    }
 
+//
+//    @GetMapping("/list") // 페이징 관련 파라미터를 사용하여 상품 목록을 조회합니다.
+//    public ResponseEntity<Page<Product>> listProducts(
+//            @RequestParam(defaultValue = "0") int pageNumber,
+//            @RequestParam(defaultValue = "6") int pageSize
+//    ){
+//        System.out.println("pageNumber : " + pageNumber + ", pageSize : "+pageSize);
+//
+//        // 상품 번호가 큰 것 부터 정렬합니다.
+//        Sort mysort = Sort.by(Sort.Direction.DESC,"id");
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize, mysort);
+//
+////        현재 페이지는 pageNumber이고 페이지당 보여줄 갯수는 pageSize를 사용하여 Pageble 페이지를 구합니다.
+//        Page<Product> productPage = productService.listProducts(pageable) ;
+//
+//        return ResponseEntity.ok(productPage);
+//    }
 
     @GetMapping("/list") // 페이징 관련 파라미터를 사용하여 상품 목록을 조회합니다.
     public ResponseEntity<Page<Product>> listProducts(
             @RequestParam(defaultValue = "0") int pageNumber,
-            @RequestParam(defaultValue = "6") int pageSize
+            @RequestParam(defaultValue = "6") int pageSize,
+            @RequestParam(defaultValue = "all") String searchDateType,
+            @RequestParam(defaultValue = "") Category category,
+            @RequestParam(defaultValue = "") String searchMode,
+            @RequestParam(defaultValue = "") String searchKeyword
     ){
         System.out.println("pageNumber : " + pageNumber + ", pageSize : "+pageSize);
 
-        // 상품 번호가 큰 것 부터 정렬합니다.
-        Sort mysort = Sort.by(Sort.Direction.DESC,"id");
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, mysort);
+        SearchDto searchDto =new SearchDto(searchDateType, category, searchMode, searchKeyword );
 
-//        현재 페이지는 pageNumber이고 페이지당 보여줄 갯수는 pageSize를 사용하여 Pageble 페이지를 구합니다.
-        Page<Product> productPage = productService.listProducts(pageable) ;
+        Page<Product> products = productService.listProducts(searchDto, pageNumber, pageSize) ;
 
-        return ResponseEntity.ok(productPage);
+
+        System.out.println("검색 조건: "+searchDto);
+        System.out.println("총 상품 개수: "+products.getTotalElements());
+        System.out.println("총 페이지 번호: "+products.getTotalPages());
+        System.out.println("현제 페이지 번호: "+products.getNumber());
+        
+        
+        return ResponseEntity.ok(products);
     }
 
-    //클라이언트가 특정 상품 id에 대하여 "삭제" 요청을 하였습니다.
-    //@PathVariable는 URL의 경로 변수를 메소드의 매개 변수로 전달해 줍니다.
-    @DeleteMapping("/delete/{id}") // {id}는 경로 변수라고 하며, 가변 매개변수로 이해하면 됩니다.
+    //필드 검색 조건과 페이징 관련 파라미터를 사용하여 상품 목록을 조회합니다.
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id){ // {id}으로 넘겨온 상품의 아이디가, 변수 id에 할당됩니다.
         try{
         boolean isDeleted = this.productService.deleteProduct(id);
