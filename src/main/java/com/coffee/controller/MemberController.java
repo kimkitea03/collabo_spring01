@@ -60,37 +60,37 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity< Map<String, Object>> login(@RequestBody Member bean){
-        //bean은 클라이언트가 기입한 로그인 정보를 담고 있는 객체
-        System.out.println("클라이언트에서 로그인 요청 들어옴");
-        System.out.println(bean);
-
-        // member는 데이터 베이스에서 내가 조회한 회원 정보를 담고 있는 객체
-        Member member = this.memberService.findByEmail(bean.getEmail());
-
-        boolean isFound = false; // 회원이 발견되면 true로 바뀜
-
-        if(member != null){ // 아이디가 존재함
-            if(bean.getPassword().equals(member.getPassword())){//비번까지 일치함
-                isFound = true;
-            }
-        }
-
-        //response :클라이언트에게 넘겨 주고자 하는 응답 정보의 모음
-        Map<String, Object> response = new HashMap<>();
-
-        if (isFound == true){
-            response.put("message", "success");
-            response.put("member", member);
-            return ResponseEntity.ok(response);
-        }else {
-            response.put("message", "id 또는 비밀번호가 잘못되었습니다.");
-            //응답 코드 401은 인증 실패(unauthorized)를 의미합니다.
-            return ResponseEntity.status(401).body(response);
-        }
-
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity< Map<String, Object>> login(@RequestBody Member bean){
+//        //bean은 클라이언트가 기입한 로그인 정보를 담고 있는 객체
+//        System.out.println("클라이언트에서 로그인 요청 들어옴");
+//        System.out.println(bean);
+//
+//        // member는 데이터 베이스에서 내가 조회한 회원 정보를 담고 있는 객체
+//        Member member = this.memberService.findByEmail(bean.getEmail());
+//
+//        boolean isFound = false; // 회원이 발견되면 true로 바뀜
+//
+//        if(member != null){ // 아이디가 존재함
+//            if(bean.getPassword().equals(member.getPassword())){//비번까지 일치함
+//                isFound = true;
+//            }
+//        }
+//
+//        //response :클라이언트에게 넘겨 주고자 하는 응답 정보의 모음
+//        Map<String, Object> response = new HashMap<>();
+//
+//        if (isFound == true){
+//            response.put("message", "success");
+//            response.put("member", member);
+//            return ResponseEntity.ok(response);
+//        }else {
+//            response.put("message", "id 또는 비밀번호가 잘못되었습니다.");
+//            //응답 코드 401은 인증 실패(unauthorized)를 의미합니다.
+//            return ResponseEntity.status(401).body(response);
+//        }
+//
+//    }
 //    @PostMapping("logout")
 //    public ResponseEntity<String> logout(){
 //        // 추후 추가 코딩 정보가 있으면 추가할 수 있습니다.
